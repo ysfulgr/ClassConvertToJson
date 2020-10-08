@@ -20,10 +20,10 @@ public class ClassConvertToJson<T, JSon> where T : JsonSetting where JSon : clas
         GetSetting.fullPath = combine + "/" + GetSetting.fileName + GetSetting.fileExt;
         if (File.Exists(GetSetting.fullPath))
         {
-            Debug.Log("success");
+            Debug.Log("successful");
             return true;
         }
-        Debug.Log("unsuccess");
+        Debug.Log("unsuccessful");
         return false;
     }
     public void CheckFile(JSon _jSon, JsonSetting jsonSetting, bool prettyPrint)
