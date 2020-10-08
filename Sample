@@ -1,0 +1,36 @@
+using UnityEngine;
+using System;
+
+[Serializable]
+public class JsonSetting
+{
+
+    public string fileName;
+    public string filePath = "/SaveData";
+    public string fileExt = ".txt";
+    [HideInInspector]
+    public string fullPath;
+}
+
+[Serializable]
+public class DemoClass
+{
+	public float playerName;
+	public float playerDamage;
+	
+}
+
+public class Sample : MonoBehaviour
+{
+    public JsonSetting jsonSetting;
+	
+	public DemoClass demoClass;
+	
+    public ClassConvertToJson<JsonSetting, DemoClass> convertClass = new ClassConvertToJson<JsonSetting, DemoClass>(new JsonSetting(), new DemoClass());
+
+    public void Convert(){
+	
+	convertClass.CheckFile(demoClass, jsonSetting, true);
+	}
+	
+}

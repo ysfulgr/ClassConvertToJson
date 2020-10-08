@@ -1,0 +1,47 @@
+using System;
+using System.IO;
+using UnityEngine;
+public class ClassConvertToJson<T, JSon> where T : JsonSetting where JSon : class
+{
+    T GetSetting;
+    JSon GetClass;
+    public ClassConvertToJson(T _getSetting, JSon _getClass)
+    {
+        GetSetting = _getSetting;
+        GetClass = _getClass;
+    }
+    public bool CheckFile(JsonSetting jsonSetting)
+    {
+        GetSetting.fileName = jsonSetting.fileName;
+        GetSetting.fileExt = jsonSetting.fileExt;
+        GetSetting.fullPath = jsonSetting.fullPath;
+
+        string combine = Application.dataPath + GetSetting.filePath;
+        GetSetting.fullPath = combine + "/" + GetSetting.fileName + GetSetting.fileExt;
+        if (File.Exists(GetSetting.fullPath))
+        {
+            Debug.Log("success");
+            return true;
+        }
+        Debug.Log("unsuccess");
+        return false;
+    }
+    public void CheckFile(JSon _jSon, JsonSetting jsonSetting, bool prettyPrint)
+    {
+        if (CheckFile(jsonSetting))
+        {
+            string json = JsonUtility.ToJson(_jSon, prettyPrint);
+            File.WriteAllText(GetSetting.fullPath, json);
+            Debug.Log(GetSetting.fileName);
+        }
+    }
+    public void FileReload(JSon _jSon, JsonSetting jsonSetting)
+    {
+        if (CheckFile(jsonSetting))
+        {
+            string json =  File.ReadAllText(GetSetting.fullPath);
+            JsonUtility.FromJsonOverwrite(json, _jSon);
+            Debug.Log("FileReload");
+        }
+    }
+}
